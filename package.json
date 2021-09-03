@@ -1,12 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint"
+    "*.{ts,tsx}": "eslint --fix"
   },
   "scripts": {
     "start": "expo start",
@@ -14,7 +9,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint **/**/*.{ts,tsx}"
+    "lint": "eslint **/**/*.{ts,tsx}",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install"
   },
   "dependencies": {
     "expo": "~42.0.1",
