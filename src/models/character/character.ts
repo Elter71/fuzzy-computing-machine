@@ -6,10 +6,16 @@ export const CharacterModel = types
     name: types.string,
     imageURL: types.string,
     type: types.optional(types.string, ''),
+    isSelected: types.optional(types.boolean, false),
   })
   .views(self => ({
     get hasType() {
       return self.type !== '';
+    },
+  }))
+  .actions(self => ({
+    changedIsSelected() {
+      self.isSelected = !self.isSelected;
     },
   }));
 
