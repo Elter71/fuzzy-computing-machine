@@ -1,4 +1,5 @@
-import { Instance, SnapshotIn, types, cast } from 'mobx-state-tree';
+import { cast, types } from 'mobx-state-tree';
+import { CharacterModel, CharacterSnapshotIn } from '../character/character';
 
 const API_URL = 'https://rickandmortyapi.com/api/character';
 
@@ -56,23 +57,7 @@ const fetchCharacters = async () => {
   return response.json() as unknown as ApiCharacterModel;
 };
 
-const CharacterModel = types
-  .model('CharacterModel', {
-    id: types.string,
-    name: types.string,
-    imageURL: types.string,
-    type: types.optional(types.string, ''),
-  })
-  .views(self => ({
-    get hasType() {
-      return self.type !== '';
-    },
-  }));
-
-export type CharacterSnapshotIn = SnapshotIn<typeof CharacterModel>;
-export type ICharacterModel = Instance<typeof CharacterModel>;
-
-const CharactersStore = types
+export const CharactersStoreModel = types
   .model('CharactersStore', {
     characters: types.array(CharacterModel),
   })
@@ -93,13 +78,3 @@ const CharactersStore = types
       this.setCharacters(characters);
     },
   }));
-
-let characterStore: Instance<typeof CharactersStore>;
-
-export const useCharacters = (): Instance<typeof CharactersStore> => {
-  if (!characterStore) {
-    characterStore = CharactersStore.create({ characters: [] });
-  }
-
-  return characterStore;
-};
